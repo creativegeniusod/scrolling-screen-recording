@@ -1,0 +1,98 @@
+.popupMainOuter {
+    width: 320px;
+    font-size: 14px;
+    padding: 20px 0px;
+    border: 1px solid #fff;
+    text-align: center;
+    margin: 0;
+}
+header {
+    font-size: 25px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #797979;
+}
+.breakpoint-content .breakpoint-input {
+    width: 100%;
+    float: left;
+}
+.breakpoint-content .breakpoint-input span.cross-btn {
+    float: left;
+    width: 12.7%;
+    padding: 8px 0px;
+    border: 1px solid #EFEFEF;
+    border-left: none;
+    cursor: pointer;
+}
+.breakpoint-content .breakpoint-input input.breakInputs {
+    width: 83%;
+    float: left;
+    border: 1px solid #EFEFEF;
+    height: 100%;
+    padding: 10px 5px;
+    outline: none;
+}
+.breakpoint-input-points {
+    float: left;
+    width: 100%;
+    padding: 15px 0px;
+}
+.breakpoint-input-points .points {
+    width: 100%;
+    float: left;
+}
+.breakpoint-input-points .points span {
+    width: 87%;
+    float: left;
+    border: 1px solid #EFEFEF;
+    margin-bottom: 5px;
+    padding: 8px 0px;
+}
+.breakpoint-input-points .points i {
+    width: 12%;
+    float: left;
+    border: 1px solid #EFEFEF;
+    padding: 8px 0px;
+    border-left: 0px;
+    font-style: normal;
+}
+button#breakPoint {
+    background-color: #09CA09;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    max-width: 220px;
+    padding: 10px 0px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    outline: none;
+    text-transform: uppercase;
+}
+button#render {
+    background-color: #37B3F5;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    max-width: 220px;
+    padding: 10px 0px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    outline: none;
+    text-transform: uppercase;
+}
+.all-buttons {
+    background-color: #EFEFEF;
+    float: left;
+    padding: 30px 20px 20px;
+}
+.inner-height {
+    width: 100%;
+    height: 200px;
+    float: left;
+    overflow: auto;
+}
+.cross-icon, .savedBrkpoints {cursor: pointer;}
