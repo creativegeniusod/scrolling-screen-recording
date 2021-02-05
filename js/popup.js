@@ -40,11 +40,9 @@ $( document ).ready(function() {
 	    });
 	}
 
-    $('.clear').click(function(){
-    	$('.breakInputs').val('');
-    });
-
     $('#deleteAll').click(function(){
+    	$('#myModal').show();
+    	$('#myModal').css('opacity', 1);
     	chrome.storage.local.get(['breakPoint'], function(result) {
 			if(result.breakPoint != undefined && result.breakPoint.length > 0){
 				for (var i = 0; i < result.breakPoint.length; i++) {
@@ -61,48 +59,41 @@ $( document ).ready(function() {
     });
 
     $('#breakPoint').click(function(){
-    	var brkInp = $('.breakInputs').val();
+    	var brkInp = 'BreakPoint 1';
+    	console.log(brkpoint);
     	for (var i = 0; i < brkpoint.length; i++) {
+    		var j = i+2;
+    		console.log("ii:"+i+"     jj::"+j);
+    		brkInp = 'BreakPoint '+j;
     		if(brkInp == brkpoint[i]){
     			exist = true;
+    			j +=1; 
+    			brkInp = 'BreakPoint '+j;
     		} else {
     			exist = false;
     		}
+    		console.log(exist);
     	}
-    	if(!exist){
-	    	if(brkInp == ""){
-	    		alert("Please enter any name.");
-	    	} else{
-		    	brkpoint.push(brkInp);
-		    	$('.breakInputs').val('');
-			    document.getElementById("breakPoint").disabled = true;
-			    var span = document.createElement("span");
-    			var icon = document.createElement("i");
-    			var brk = document.createElement("br");
-    			span.innerText = brkInp;
-    			span.classList.add("savedBrkpoints");
-    			icon.innerHTML = '&#10006';
-    			icon.classList.add("cross-icon");
-    			$('.points').append(span);
-    			$('.points').append(icon);
-    			$('.points').append(brk);
-    			deleteItem();
-			    chrome.storage.local.set({breakPoint: brkpoint}, function() {
-				  console.log('Value is set to ' + brkpoint);
-				});
-	    	}
-	    } else{
-	    	alert("This breakPoint already exist.");
-	    }
+    	brkpoint.push(brkInp);
+	    var span = document.createElement("span");
+		var icon = document.createElement("i");
+		var brk = document.createElement("br");
+		span.innerText = brkInp;
+		span.classList.add("savedBrkpoints");
+		icon.innerHTML = '&#10006';
+		icon.classList.add("cross-icon");
+		$('.points').append(span);
+		$('.points').append(icon);
+		$('.points').append(brk);
+		deleteItem();
+	    chrome.storage.local.set({breakPoint: brkpoint}, function() {
+		  console.log('Value is set to ' + brkpoint);
+		});
     });
-
-    $(".breakInputs").keyup(function(){
-	  document.getElementById("breakPoint").disabled = false;
-	});
 
     $('#render').click(function(){
     	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		    chrome.tabs.sendMessage(tabs[0].id, {message: "runAnimation"});
+		    chrome.tabs.sendMessage(tabs[0].id, {message: "runAnimation", brkpoint:brkpoint});
 		});
     });
 });

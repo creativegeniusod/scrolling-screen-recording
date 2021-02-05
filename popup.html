@@ -1,30 +1,127 @@
-<!doctype html>
-<html lang=en>
-	<head>
-	  <script src=js/jquery.js></script>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <title>Email Popup</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <!-- Stylesheet -->
+      <link href="css/popup.css" rel="stylesheet">
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+      <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+      <script src=js/jquery.js></script>
 	  <script src=js/popup.js></script>
-	  <link rel="stylesheet" type="text/css" href="css/popup.css">
-	</head>
+    </head>
+    <body>
 	<body class="popupMainOuter">
-		<header>
-			BreakPoint screen Recorder
-		</header>
-		<div class="breakpoint-content">
-			<div class="inner-height">
-				<div class="breakpoint-input">
-					<input type="text" name="breakPoint" class="breakInputs">
-					<span class="cross-btn clear">&#10006;</span>
-				</div>
-				<div class="breakpoint-input-points">
-					<div class="points">
+		<div class="container">
+			<div class="screen-one">
+				<header>
+					BreakPoint screen Recorder
+				</header>
+				<div class="breakpoint-content">
+					<div class="inner-height">
+						<div class="breakpoint-input-points">
+							<div class="points">
+							</div>
+						</div>
+					</div>
+					<div class="all-buttons">
+						<button id="breakPoint">Add a breakPoint</button>
+						<button id="render">Render animation</button>
+						<button id="deleteAll" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Delete All Breakpoints</button>
+						<div class="container">
+							<!-- Modal -->
+							<div class="modal fade" id="myModal" role="dialog">
+							  <div class="modal-dialog">
+							    <!-- Modal content-->
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							      </div>
+							      <div class="modal-body">
+							      	<h3>Delete All Breakpoints?</h3>
+							        <p>Are you sure you want to remove all breakpoints? You won't be able to go back.</p>
+
+							        <div class=" yes-no-button">
+							        	<button id="no">No</button>
+										<button id="yes">Yes,Delete</button></div>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+
+						<!-- <button id="myBtn">Open Modal</button>
+
+						<div class="modal fade" id="myModal" role="dialog">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						      <div class="modal-body">
+						        <h3>Delete All Breakpoints?</h3>
+						        <p>Are you sure you want to remove all breakpoints? You won't be able to go back.</p>
+
+						        <div class=" yes-no-button">
+						          <button id="no">No</button>
+						          <button id="yes">Yes,Delete</button></div>
+						      </div>
+						    </div>
+						  </div>
+						</div> -->
+
 					</div>
 				</div>
 			</div>
-			<div class="all-buttons">
-				<button id="breakPoint">Add a breakPoint</button>
-				<button id="render">Render animation</button>
-				<button id="deleteAll">Delete All Breakpoints</button>
+
+			<div class="screen-two">
+				<header>
+					BreakPoint screen Recorder
+				</header>
+				<div class="breakpoint-content">
+					<div class="inner-height">
+						<p class="create-point">
+							Create your frist breakpoint by clicking on the button "add a breakpoint"
+						</p>
+						<p class="find-point">
+							To find out more you can Watch <br><a href="#"> our tutorial here </a>
+						</p>
+					</div>
+					<div class="all-buttons">
+						<button id="breakPoint">Add a breakPoint</button>
+					</div>
+				</div>
 			</div>
 		</div>
+		<!-- <script>
+		// Get the modal
+		var modal = document.getElementById("myModal");
+
+		// Get the button that opens the modal
+		var btn = document.getElementById("myBtn");
+
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+
+		// When the user clicks the button, open the modal 
+		btn.onclick = function() {
+		  modal.style.display = "block";
+		}
+
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		  modal.style.display = "none";
+		}
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == modal) {
+		    modal.style.display = "none";
+		  }
+		}
+		</script> -->
+
 	</body>
 </html>

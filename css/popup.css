@@ -1,10 +1,47 @@
 .popupMainOuter {
     width: 320px;
     font-size: 14px;
-    padding: 20px 0px;
+    padding: 0px 0px;
     border: 1px solid #fff;
     text-align: center;
     margin: 0;
+    float: left;
+}
+.screen-one {
+    float: left;
+    width: 100%;
+    display: block;
+    padding: 20px 0px;
+}
+button#deleteAll a.get-started-btn.scrollto {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+.screen-two {
+    float: left;
+    width: 100%;
+    padding: 20px 0px 0px;
+    display: none;
+}
+.screen-two .breakpoint-content .inner-height .create-point {
+    width: 100%;
+    float: left;
+    padding: 0;
+    text-align: center;
+}
+.screen-two .breakpoint-content .inner-height {
+    width: 100%;
+    height: 100%;
+    float: left;
+    margin: 0 auto;
+    display: inline-block;
+}
+.screen-two .breakpoint-content {
+    width: 100%;
+    float: left;
+    height: auto;
+    margin: 0 auto;
 }
 header {
     font-size: 25px;
@@ -36,6 +73,8 @@ header {
     float: left;
     width: 100%;
     padding: 15px 0px;
+    overflow: auto;
+    height: 200px;
 }
 .breakpoint-input-points .points {
     width: 100%;
@@ -62,7 +101,7 @@ button#breakPoint {
     color: #fff;
     font-size: 16px;
     width: 100%;
-    max-width: 220px;
+    max-width: 250px;
     padding: 10px 0px;
     border-radius: 10px;
     cursor: pointer;
@@ -76,7 +115,21 @@ button#render {
     color: #fff;
     font-size: 16px;
     width: 100%;
-    max-width: 220px;
+    max-width: 250px;
+    padding: 10px 0px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    outline: none;
+    text-transform: uppercase;
+}
+button#deleteAll {
+    background-color: red;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    max-width: 250px;
     padding: 10px 0px;
     border-radius: 10px;
     cursor: pointer;
@@ -87,12 +140,99 @@ button#render {
 .all-buttons {
     background-color: #EFEFEF;
     float: left;
-    padding: 30px 20px 20px;
+    padding: 20px 0px;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    overflow: visible;
+    height: 100%;
 }
 .inner-height {
     width: 100%;
     height: 200px;
     float: left;
-    overflow: auto;
 }
 .cross-icon, .savedBrkpoints {cursor: pointer;}
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    float:left;
+}
+.popupMainOuter .modal {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    float: left;
+}
+.popupMainOuter .modal-content {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 9px rgb(0 0 0 / 50%);
+    box-shadow: 0 3px 9px rgb(0 0 0 / 50%);
+    outline: 0;
+    float: left;
+}
+.popupMainOuter .modal-body {
+    position: relative;
+    padding: 15px;
+    float: left;
+    width: 100%;
+}
+.yes-no-button {
+    width: 100%;
+    float: left;
+    height: 100%;
+    padding: 10px 0px;
+}
+.yes-no-button button#no {
+    background-color: #efefef;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    border: 2px solid #656464;
+    outline: none;
+}
+.yes-no-button button#yes, .render-section #yes-download {
+    background-color: red;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    margin-left: 20px;
+    outline: none;
+}
+.render-section #yes-download {
+    background-color: #44e844;
+}
+.delete-all-section, .render-section, .stopped-scroll-section {
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+}
+.delete-all-section h3, .render-section h3, .stopped-scroll-section h3 {
+    font-weight: bold;
+    color: #717171;
+    margin-top: 10px;
+}
+.delete-all-section p, .render-section p, .stopped-scroll-section p {
+    font-size: 14px;
+    color: #b1b1b1;
+}
