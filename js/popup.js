@@ -40,9 +40,15 @@ $( document ).ready(function() {
 	    });
 	}
 
-    $('#deleteAll').click(function(){
-    	$('#myModal').show();
-    	$('#myModal').css('opacity', 1);
+    $('.close').click(function(){
+    	$('#myModal').hide();
+    });
+
+    $('.no').click(function(){
+    	$('#myModal').hide();
+    });
+
+    $('#yes').click(function(){
     	chrome.storage.local.get(['breakPoint'], function(result) {
 			if(result.breakPoint != undefined && result.breakPoint.length > 0){
 				for (var i = 0; i < result.breakPoint.length; i++) {
@@ -54,8 +60,17 @@ $( document ).ready(function() {
 					  console.log('Value is set to ' + brkpoint);
 					});
 		    	}
+		    	$('#myModal').hide();
 			}
 		});
+    });
+
+    $('#deleteAll').click(function(){
+    	$('#myModal').show();
+    	$('#myModal').css('opacity', 1);
+    	$('.delete-all-section').show();
+    	$('.render-section').hide();
+    	$('.stopped-scroll-section').hide();
     });
 
     $('#breakPoint').click(function(){
@@ -92,6 +107,12 @@ $( document ).ready(function() {
     });
 
     $('#render').click(function(){
+    	/*$('#myModal').show();
+    	$('#myModal').css('opacity', 1);
+    	$('.render-section').show();
+    	$('.delete-all-section').hide();
+    	$('.stopped-scroll-section').hide();*/
+        chrome.runtime.sendMessage({message: "changeIcon"});
     	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		    chrome.tabs.sendMessage(tabs[0].id, {message: "runAnimation", brkpoint:brkpoint});
 		});

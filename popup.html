@@ -7,8 +7,8 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
       <!-- Stylesheet -->
       <link href="css/popup.css" rel="stylesheet">
-      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-      <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
       <script src=js/jquery.js></script>
 	  <script src=js/popup.js></script>
     </head>
@@ -36,41 +36,42 @@
 							  <div class="modal-dialog">
 							    <!-- Modal content-->
 							    <div class="modal-content">
-							      <div class="modal-header">
-							        <button type="button" class="close" data-dismiss="modal">&times;</button>
-							      </div>
-							      <div class="modal-body">
-							      	<h3>Delete All Breakpoints?</h3>
-							        <p>Are you sure you want to remove all breakpoints? You won't be able to go back.</p>
+							      	<div class="modal-header">
+							        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+							      	</div>
+							      	<div class="modal-body">
+								      	<div class="delete-all-section" style="display: none">
+									      	<h3>Delete All Breakpoints?</h3>
+									        <p>Are you sure you want to remove all breakpoints? You won't be able to go back.</p>
 
-							        <div class=" yes-no-button">
-							        	<button id="no">No</button>
-										<button id="yes">Yes,Delete</button></div>
-							      </div>
+									        <div class="yes-no-button">
+									        	<button class="no">No</button>
+												<button id="yes">Yes, Delete</button>
+											</div>
+								      	</div>
+
+								      	<div class="render-section" style="display: none">
+									      	<h3>Render Completed</h3>
+									        <p>Rendering completed successfully. Do you want to download the video?</p>
+
+									        <div class="yes-no-button">
+									        	<button class="no">No</button>
+												<button id="yes-download">Yes, Download</button>
+											</div>
+								      	</div>
+
+								      	<div class="stopped-scroll-section" style="display: none">
+								      		<h3>You've stopped the scroll</h3>
+									        <p>You have stopped the scroll by clicking on the page. You can restart the scroll from the beginning at any time.</p>
+
+									        <div class="yes-no-button">
+									        	<button class="no">No</button>
+								      		</div>	
+							      		</div>
 							    </div>
 							  </div>
 							</div>
 						</div>
-
-						<!-- <button id="myBtn">Open Modal</button>
-
-						<div class="modal fade" id="myModal" role="dialog">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="close" data-dismiss="modal">&times;</button>
-						      </div>
-						      <div class="modal-body">
-						        <h3>Delete All Breakpoints?</h3>
-						        <p>Are you sure you want to remove all breakpoints? You won't be able to go back.</p>
-
-						        <div class=" yes-no-button">
-						          <button id="no">No</button>
-						          <button id="yes">Yes,Delete</button></div>
-						      </div>
-						    </div>
-						  </div>
-						</div> -->
 
 					</div>
 				</div>

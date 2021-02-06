@@ -1,11 +1,10 @@
-div#BreakPoint1 {
+div#BreakPoint1, div#BreakPoint2, div#BreakPoint3 {
     background-color: #04CC04;
     padding: 10px;
     margin-bottom: 20px;
     float: left;
     left: 20px !important;
     position: absolute !important;
-    top: 41% !important;
     color: #fff;
     font-size: 20px;
     margin-top: 10px;

@@ -198,7 +198,7 @@ button#deleteAll {
     height: 100%;
     padding: 10px 0px;
 }
-.yes-no-button button#no {
+.yes-no-button button.no {
     background-color: #efefef;
     border: none;
     padding: 8px 20px;
