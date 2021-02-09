@@ -23,8 +23,9 @@
         "js": ["js/jquery.js", "js/content.js"]
     }],
     "permissions": [
-        // "tabs",
-        // "activeTab",
-        "storage"
+        "tabs",
+        "activeTab",
+        "storage",
+        "downloads", "notifications", "desktopCapture"
     ]
 }

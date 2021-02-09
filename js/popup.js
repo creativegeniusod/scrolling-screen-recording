@@ -1,5 +1,24 @@
 $( document ).ready(function() {
     var brkpoint = [], exist = false;
+
+    chrome.runtime.onMessage.addListener(
+      function(request, sender, sendResponse) {
+        if (request.message == "compelete"){
+            $('#myModal').show();
+            $('#myModal').css('opacity', 1);
+            $('.render-section').show();
+            $('.delete-all-section').hide();
+            $('.stopped-scroll-section').hide();
+        } else if (request.message == "clickDetect"){
+            console.log("clickDetect");
+        }
+    });
+
+    $('#yes-download').click(function(){
+        $('#myModal').hide();
+        chrome.runtime.sendMessage({message: "download"});
+    });
+
 	chrome.storage.local.get(['breakPoint'], function(result) {
 		if(result.breakPoint != undefined && result.breakPoint.length > 0){
 			for (var i = 0; i < result.breakPoint.length; i++) {
@@ -11,6 +30,7 @@ $( document ).ready(function() {
     			span.classList.add("savedBrkpoints");
     			icon.innerHTML = '&#10006';
     			icon.classList.add("cross-icon");
+                brk.classList.add("break");
     			$('.points').append(span);
     			$('.points').append(icon);
     			$('.points').append(brk);
@@ -30,13 +50,19 @@ $( document ).ready(function() {
 
 	function deleteItem(){
 		$('.cross-icon').click(function(){
+            // console.log($(this).next());
 			var value = $(this).prev()[0].innerText;
 			brkpoint = brkpoint.filter(item => item !== value)
 			$(this).prev().remove();
+            $(this).next().remove();
 			$(this).remove();
 			chrome.storage.local.set({breakPoint: brkpoint}, function() {
 			  console.log('Value is set to ' + brkpoint);
 			});
+
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {message: "delete"});
+            });
 	    });
 	}
 
@@ -49,6 +75,7 @@ $( document ).ready(function() {
     });
 
     $('#yes').click(function(){
+        $('#myModal').hide();
     	chrome.storage.local.get(['breakPoint'], function(result) {
 			if(result.breakPoint != undefined && result.breakPoint.length > 0){
 				for (var i = 0; i < result.breakPoint.length; i++) {
@@ -56,12 +83,14 @@ $( document ).ready(function() {
 		    		brkpoint = brkpoint.filter(item => item !== value)
 		    		$('.savedBrkpoints').remove();
 		    		$('.cross-icon').remove();
+                    $('.break').remove();
 					chrome.storage.local.set({breakPoint: brkpoint}, function() {
 					  console.log('Value is set to ' + brkpoint);
 					});
 		    	}
-		    	$('#myModal').hide();
-			}
+			} else{
+                alert("No breakPoint to delete.");
+            }
 		});
     });
 
@@ -71,9 +100,15 @@ $( document ).ready(function() {
     	$('.delete-all-section').show();
     	$('.render-section').hide();
     	$('.stopped-scroll-section').hide();
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {message: "deleteAll"});
+        });
     });
 
     $('#breakPoint').click(function(){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {message: "screenTop"});
+        });
     	var brkInp = 'BreakPoint 1';
     	console.log(brkpoint);
     	for (var i = 0; i < brkpoint.length; i++) {
@@ -97,6 +132,7 @@ $( document ).ready(function() {
 		span.classList.add("savedBrkpoints");
 		icon.innerHTML = '&#10006';
 		icon.classList.add("cross-icon");
+        brk.classList.add("break");
 		$('.points').append(span);
 		$('.points').append(icon);
 		$('.points').append(brk);
@@ -107,14 +143,11 @@ $( document ).ready(function() {
     });
 
     $('#render').click(function(){
+        chrome.runtime.sendMessage({message: "changeIcon", brkpoint:brkpoint});
     	/*$('#myModal').show();
     	$('#myModal').css('opacity', 1);
     	$('.render-section').show();
     	$('.delete-all-section').hide();
     	$('.stopped-scroll-section').hide();*/
-        chrome.runtime.sendMessage({message: "changeIcon"});
-    	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		    chrome.tabs.sendMessage(tabs[0].id, {message: "runAnimation", brkpoint:brkpoint});
-		});
     });
 });

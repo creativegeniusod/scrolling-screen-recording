@@ -109,7 +109,24 @@ button#breakPoint {
     outline: none;
     text-transform: uppercase;
 }
-button#render {
+.render-hover-show p {
+    margin: 0px;
+}
+.render-hover-show {
+    display: none;
+    width: 100%;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    outline: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    box-shadow: 0px 0px 10px 2px #000;
+}
+#render {
     background-color: #37B3F5;
     border: none;
     color: #fff;
@@ -122,6 +139,15 @@ button#render {
     margin-bottom: 10px;
     outline: none;
     text-transform: uppercase;
+    text-align: center;
+    margin: 0px auto 10px;
+}
+.render-tooltip-button:hover .render-hover-show {
+    display: block;
+}
+.render-tooltip-button {
+    width: 100%;
+    float: left;
 }
 button#deleteAll {
     background-color: red;
@@ -137,6 +163,20 @@ button#deleteAll {
     outline: none;
     text-transform: uppercase;
 }
+.render-hover-show:before {
+    position: absolute;
+    content: "";
+    color: #f0f0f0;
+    border: 4px solid #f0f0f0;
+    width: 18px;
+    height: 18px;
+    bottom: -8px;
+    transform: rotate(45deg);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-color: #f0f0f0;
+}
 .all-buttons {
     background-color: #EFEFEF;
     float: left;
@@ -145,8 +185,9 @@ button#deleteAll {
     margin: 0 auto;
     display: block;
     text-align: center;
-    overflow: visible;
+    overflow: hidden;
     height: 100%;
+    position: relative;
 }
 .inner-height {
     width: 100%;
@@ -235,4 +276,13 @@ button#deleteAll {
 .delete-all-section p, .render-section p, .stopped-scroll-section p {
     font-size: 14px;
     color: #b1b1b1;
+}
+.tooltip-inner {
+    max-width: 260px;
+    padding: 10px 10px;
+    color: #fff;
+    text-align: center;
+    background-color: #300;
+    border-radius: .25rem;
+    font-size: 18px;
 }

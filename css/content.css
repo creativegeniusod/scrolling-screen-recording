@@ -1,4 +1,4 @@
-div#BreakPoint1, div#BreakPoint2, div#BreakPoint3 {
+div.brkpoints {
     background-color: #04CC04;
     padding: 10px;
     margin-bottom: 20px;
@@ -8,4 +8,5 @@ div#BreakPoint1, div#BreakPoint2, div#BreakPoint3 {
     color: #fff;
     font-size: 20px;
     margin-top: 10px;
+    z-index: 999;
 }
