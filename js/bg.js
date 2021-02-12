@@ -1,6 +1,20 @@
 $( document ).ready(function() {
-    console.log( "bg!" );
     var download_url, config = {};
+    chrome.tabs.create({
+        url: chrome.extension.getURL('popup.html'),
+        active: false
+    }, function(tab) {
+		var tabId = tab.id;
+		chrome.windows.create({
+			tabId: tabId,
+			type: 'popup',
+			top:300,
+			left:750,
+			width:500,
+			height:500,
+			focused: true
+		});
+    });
     chrome.runtime.onMessage.addListener(
 	  function(request, sender, sendResponse) {
 	    if (request.message == "changeIcon"){
@@ -27,7 +41,6 @@ $( document ).ready(function() {
 			      "message": message,
 			      "iconUrl": chrome.runtime.getURL("data/icons/64.png")
 			    };
-			    /*  */
 			    chrome.notifications.create(id, options, function (e) {});
 			  }
 			};
@@ -37,12 +50,8 @@ $( document ).ready(function() {
 			  window.setTimeout(function () {
 			    chrome.storage.local.get(null, function (o) {
 			      objs = o;
-			      // var script = document.createElement("script");
-			      // script.src = "js/common.js";
-			      // document.body.appendChild(script);
 			    });
 			  }, 300);
-			  /*  */
 			  return {
 			    "read": function (id) {return objs[id]},
 			    "write": function (id, data) {
@@ -56,8 +65,6 @@ $( document ).ready(function() {
 			/*Chrome.js*/
 
 			/*config.js*/
-			// var config = {};
-
 			config.welcome = {
 			  get version () {return app.storage.read("version")},
 			  set version (val) {app.storage.write("version", val)}
@@ -70,7 +77,6 @@ $( document ).ready(function() {
 			  "switch": true,
 			  "interval": null,
 			  "stop": function () {
-			    // app.icon(null);
 			    config.recorder.engine.stop();
 			    config.recorder.switch = true;
 			    if (config.recorder.interval) window.clearInterval(config.recorder.interval);
@@ -108,7 +114,6 @@ $( document ).ready(function() {
 			            config.recorder.engine.start();
 			            if (config.recorder.interval) window.clearInterval(config.recorder.interval);
 			            config.recorder.interval = window.setInterval(function () {
-			              // app.icon(config.recorder.switch ? "ON" : "OFF");
 			              config.recorder.switch = !config.recorder.switch;
 			            }, 500);
 			          }).catch(function (e) {});
@@ -124,6 +129,21 @@ $( document ).ready(function() {
   			recording ? config.recorder.stop() : config.recorder.start();
     		/*common.js*/
 	    } else if (request.message == "stop"){
+    		chrome.tabs.create({
+	            url: chrome.extension.getURL('popup.html'),
+	            active: false
+	        }, function(tab) {
+				var tabId = tab.id;
+				chrome.windows.create({
+					tabId: tabId,
+					type: 'popup',
+					top:300,
+					left:750,
+					width:500,
+					height:500,
+					focused: true
+				});
+	        });	
 	    	var recording = config.recorder.engine && config.recorder.engine.state !== "inactive";
   			recording ? config.recorder.stop() : config.recorder.start();
 	  	} else if (request.message == "download"){

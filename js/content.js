@@ -1,5 +1,4 @@
 $( document ).ready(function() {
-    console.log( "content!" );
     var links = [], screenTop = [];
     var CORRECTION = 50;
 	var DELAY_READING = 2000;
@@ -18,8 +17,6 @@ $( document ).ready(function() {
 			  console.log('Value is set to ' + result.screenTop);
 			  screenTop = result.screenTop;
 			});
-			/*for (var j = 0; j < screenTop.length; j++) {
-			}*/
 		}
 	});
 
@@ -27,22 +24,44 @@ $( document ).ready(function() {
 	    if (event===undefined) event= window.event;
 	    var target= 'target' in event? event.target : event.srcElement;
 	    if($('.brkpoints').length > 0){
-	    	console.log("click detected");
-	    	chrome.runtime.sendMessage({message: "clickDetect"});
+	    	/*console.log("clickDetect");
+	    	chrome.runtime.sendMessage({message: "stop"});
+	    	setTimeout(function(){
+	    		chrome.runtime.sendMessage({message: "clickDetect"});
+	    	},1000);*/
 	    }
-	    // alert('clicked on '+target.tagName);
 	};
 
     chrome.runtime.onMessage.addListener(
 	  function(request, sender, sendResponse) {
 	    if (request.message == "runAnimation"){
+	    	$('a').attr('style', 'cursor: none !important');
+	    	$('body').attr('style', 'cursor: none !important');
 	      links = request.brkpoint;
 	      delayLinks(0);
 	    } else if (request.message == "screenTop"){
+	    	var points = request.brkpoint;
 	    	screenTop.push($(document).scrollTop());
-        	console.log("scrollTop: ", screenTop);
         	chrome.storage.local.set({screenTop: screenTop}, function() {
 			  console.log('Value is set to ' + screenTop);
+			});
+			chrome.storage.local.get(['screenTop'], function(result) {
+				if(result.screenTop != undefined && result.screenTop.length > 0){
+					for (var j = 0; j < points.length; j++) {
+						var div = document.createElement("div");
+						var id = points[j].split(' ');
+						id = id[0]+id[1];
+						div.innerText = points[j];
+						if(document.getElementById(id) == null){
+							var topvalue = result.screenTop[j];
+							topvalue +='px';
+							div.setAttribute('id', id);
+							div.classList.add("brkpoints");
+							$('body').append(div);
+							div.style.top = topvalue;
+						}
+					}
+				}
 			});
 	    } else if (request.message == "deleteAll"){
 	    	chrome.storage.local.remove(['screenTop']);
@@ -56,15 +75,13 @@ $( document ).ready(function() {
 		chrome.storage.local.get(['screenTop'], function(result) {
 			if(result.screenTop != undefined && result.screenTop.length > 0){
 				for (var j = 0; j < links.length; j++) {
-					console.log(result.screenTop);
 					var div = document.createElement("div");
 					var id = links[j].split(' ');
 					id = id[0]+id[1];
 					div.innerText = links[j];
 					if(document.getElementById(id) == null){
 						var topvalue = result.screenTop[j];
-						topvalue +='px'; 
-						console.log("hjsbhdbsj");
+						topvalue +='px';
 						div.setAttribute('id', id);
 						div.classList.add("brkpoints");
 						$('body').append(div);
@@ -73,7 +90,8 @@ $( document ).ready(function() {
 				}
 			}
 		});
-		
+
+		$('.brkpoints').css('visibility', 'hidden');
 		if( i >= links.length ) i = 0;
 		scrollToLink( links[i] );
 		if((links.length-1) != i){
@@ -81,9 +99,12 @@ $( document ).ready(function() {
 			timerId = setTimeout(function() { delayLinks( next ) }, DELAY_READING )
 		} else{
 			setTimeout(function(){
-				console.log("compelete");
+				$('a').attr('style', 'cursor: auto !important');
+	    		$('body').attr('style', 'cursor: auto !important');
 				chrome.runtime.sendMessage({message: "stop"});
-				chrome.runtime.sendMessage({message: "compelete"});
+				setTimeout(function(){
+					chrome.runtime.sendMessage({message: "compelete"});
+				}, 2000);
 			},2000);
 		}
 	}
@@ -96,9 +117,7 @@ $( document ).ready(function() {
 		  if ( selectLink.length ) {
 		    var top = selectLink.offset().top - CORRECTION;
 		    $('body,html').stop().animate({scrollTop: top}, DELAY_SCROLLING);
-		  } else {
-		    console.log('The link is not found: ' + id);
-		  }
+		  } 
 		} else {
 			alert("Add atleast one breakpoint.");
 		}

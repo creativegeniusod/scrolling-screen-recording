@@ -4,13 +4,22 @@ $( document ).ready(function() {
     chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
         if (request.message == "compelete"){
+            console.log("DONE DONE");
             $('#myModal').show();
             $('#myModal').css('opacity', 1);
             $('.render-section').show();
             $('.delete-all-section').hide();
             $('.stopped-scroll-section').hide();
         } else if (request.message == "clickDetect"){
+            $('#myModal').show();
+            $('#myModal').css('opacity', 1);
+            $('.render-section').hide();
+            $('.delete-all-section').hide();
+            $('.stopped-scroll-section').show();
             console.log("clickDetect");
+        } else if (request.message == "checkPopup"){
+            console.log("checkPopup");
+            sendResponse('inPopup');
         }
     });
 
@@ -106,9 +115,6 @@ $( document ).ready(function() {
     });
 
     $('#breakPoint').click(function(){
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {message: "screenTop"});
-        });
     	var brkInp = 'BreakPoint 1';
     	console.log(brkpoint);
     	for (var i = 0; i < brkpoint.length; i++) {
@@ -136,6 +142,9 @@ $( document ).ready(function() {
 		$('.points').append(span);
 		$('.points').append(icon);
 		$('.points').append(brk);
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {message: "screenTop", brkpoint:brkpoint});
+        });
 		deleteItem();
 	    chrome.storage.local.set({breakPoint: brkpoint}, function() {
 		  console.log('Value is set to ' + brkpoint);
@@ -144,10 +153,6 @@ $( document ).ready(function() {
 
     $('#render').click(function(){
         chrome.runtime.sendMessage({message: "changeIcon", brkpoint:brkpoint});
-    	/*$('#myModal').show();
-    	$('#myModal').css('opacity', 1);
-    	$('.render-section').show();
-    	$('.delete-all-section').hide();
-    	$('.stopped-scroll-section').hide();*/
+        window.close();
     });
 });
