@@ -98,9 +98,15 @@ $( document ).ready(function() {
 			             }
 			           }
 			         }).then(function (e) {
-			         	console.log("brkpoint: ", brkpoint);
+			         	setInterval(function(){
+				            config.recorder.stream.getTracks()[0].onended = function () {
+							    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+								    chrome.tabs.sendMessage(tabs[0].id, {message: "stopDetected"});
+							    	showPopup();
+								});
+							};
+			            },1000);
 			         	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			         		console.log("tabs: ", tabs);
 						    chrome.tabs.sendMessage(tabs[0].id, {message: "runAnimation", brkpoint:brkpoint});
 						});
 			            config.recorder.stream = e;
@@ -129,29 +135,39 @@ $( document ).ready(function() {
   			recording ? config.recorder.stop() : config.recorder.start();
     		/*common.js*/
 	    } else if (request.message == "stop"){
-    		chrome.tabs.create({
-	            url: chrome.extension.getURL('popup.html'),
-	            active: false
-	        }, function(tab) {
-				var tabId = tab.id;
-				chrome.windows.create({
-					tabId: tabId,
-					type: 'popup',
-					top:300,
-					left:750,
-					width:500,
-					height:500,
-					focused: true
-				});
-	        });	
 	    	var recording = config.recorder.engine && config.recorder.engine.state !== "inactive";
   			recording ? config.recorder.stop() : config.recorder.start();
+  			showPopup();
 	  	} else if (request.message == "download"){
 	  		var date = (new Date()).toString().slice(0, 24);
 			var filename = "Video-" + date.replace(/ /g, '-').replace(/:/g, '-') + ".webm";
-			console.log(download_url);
-	  		chrome.downloads.download({"url": download_url, "filename": filename}, function (id) {console.log(id);config.recorder.id = id});
-	  	}
+	  		chrome.downloads.download({"url": download_url, "filename": filename}, function (id) {config.recorder.id = id});
+	  	}/* else if (request.message == "focus"){
+	  		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			    chrome.tabs.sendMessage(tabs[0].id, {message: "focusContent"});
+			});
+	  	}*/ else if(request.message == "refresh"){
+		  		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+	         		chrome.tabs.reload(tabs[0].id);
+				});
+	  		}
+	  		function showPopup(){
+	  			chrome.tabs.create({
+		            url: chrome.extension.getURL('popup.html'),
+		            active: false
+		        }, function(tab) {
+					var tabId = tab.id;
+					chrome.windows.create({
+						tabId: tabId,
+						type: 'popup',
+						top:300,
+						left:750,
+						width:500,
+						height:500,
+						focused: true
+					});
+		        });
+	  		}
 	  }
 	);
 });

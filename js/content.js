@@ -1,8 +1,8 @@
 $( document ).ready(function() {
-    var links = [], screenTop = [];
+    var links = [], screenTop = [], userStop = false;
     var CORRECTION = 50;
 	var DELAY_READING = 2000;
-	var DELAY_SCROLLING = 1500;
+	var DELAY_SCROLLING = 500;
 	var timerId = 0;
 	var displayMediaOptions = {
 	  video: {
@@ -20,21 +20,47 @@ $( document ).ready(function() {
 		}
 	});
 
-	document.onclick= function(event) {
-	    if (event===undefined) event= window.event;
-	    var target= 'target' in event? event.target : event.srcElement;
-	    if($('.brkpoints').length > 0){
-	    	/*console.log("clickDetect");
-	    	chrome.runtime.sendMessage({message: "stop"});
-	    	setTimeout(function(){
-	    		chrome.runtime.sendMessage({message: "clickDetect"});
-	    	},1000);*/
+	/*$(document).keydown(function(e){
+		console.log(e.which);
+	    if(e.which == 27){
+	        clickDetected();
 	    }
+	});*/
+	// function focus(){
+		document.addEventListener("keydown", function(event) {
+			console.log(event.which);
+		    if(event.keyCode === 27){
+		       clickDetected();
+		   }
+		});
+	// }
+
+	document.onclick= function(event) {
+	    clickDetected();
 	};
+
+	function clickDetected(){
+		if($('.brkpoints').length > 0){
+	    	if(!userStop){
+	    		$('a').attr('style', 'cursor: auto !important');
+		    	$('body').attr('style', 'cursor: auto !important');
+	    		userStop = true;
+		    	chrome.runtime.sendMessage({message: "stop"});
+		    	setTimeout(function(){
+		    		chrome.runtime.sendMessage({message: "clickDetect"});
+		    	},1000);
+		    }
+	    }
+	}
 
     chrome.runtime.onMessage.addListener(
 	  function(request, sender, sendResponse) {
+	    if (request.message == "focusContent"){
+	    	console.log("focus");
+	    	// window.focus();
+	    }
 	    if (request.message == "runAnimation"){
+	    	userStop = false;
 	    	$('a').attr('style', 'cursor: none !important');
 	    	$('body').attr('style', 'cursor: none !important');
 	      links = request.brkpoint;
@@ -65,8 +91,12 @@ $( document ).ready(function() {
 			});
 	    } else if (request.message == "deleteAll"){
 	    	chrome.storage.local.remove(['screenTop']);
-	    } else if (request.message == "delete"){
-	    	
+	    	chrome.runtime.sendMessage({message: "refresh"});
+	    } else if (request.message == "stopDetected"){
+	    	userStop = true;
+	    	setTimeout(function(){
+	    		chrome.runtime.sendMessage({message: "clickDetect"});
+	    	},1000);
 	    }
 	  }
 	);
@@ -92,20 +122,29 @@ $( document ).ready(function() {
 		});
 
 		$('.brkpoints').css('visibility', 'hidden');
-		if( i >= links.length ) i = 0;
-		scrollToLink( links[i] );
-		if((links.length-1) != i){
-			var next = ( i == links.length - 1 ? 0 : i + 1);
-			timerId = setTimeout(function() { delayLinks( next ) }, DELAY_READING )
-		} else{
-			setTimeout(function(){
-				$('a').attr('style', 'cursor: auto !important');
-	    		$('body').attr('style', 'cursor: auto !important');
-				chrome.runtime.sendMessage({message: "stop"});
+		if(!userStop){
+			if( i >= links.length ) i = 0;
+			scrollToLink( links[i] );
+			if((links.length-1) != i){
+				var next = ( i == links.length - 1 ? 0 : i + 1);
+				timerId = setTimeout(function() { delayLinks( next ) }, DELAY_READING )
+			} else{
 				setTimeout(function(){
-					chrome.runtime.sendMessage({message: "compelete"});
-				}, 2000);
-			},2000);
+					$('a').attr('style', 'cursor: auto !important');
+		    		$('body').attr('style', 'cursor: auto !important');
+		    		if(!userStop){
+						chrome.runtime.sendMessage({message: "stop"});
+						setTimeout(function(){
+							chrome.runtime.sendMessage({message: "compelete"});
+						}, 2000);
+						userStop = true;
+					} else{
+						// userStop = false;
+					}
+				},2000);
+			}
+		} else{
+			// userStop = false;
 		}
 	}
 

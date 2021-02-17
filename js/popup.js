@@ -4,7 +4,6 @@ $( document ).ready(function() {
     chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
         if (request.message == "compelete"){
-            console.log("DONE DONE");
             $('#myModal').show();
             $('#myModal').css('opacity', 1);
             $('.render-section').show();
@@ -16,9 +15,7 @@ $( document ).ready(function() {
             $('.render-section').hide();
             $('.delete-all-section').hide();
             $('.stopped-scroll-section').show();
-            console.log("clickDetect");
         } else if (request.message == "checkPopup"){
-            console.log("checkPopup");
             sendResponse('inPopup');
         }
     });
@@ -59,7 +56,6 @@ $( document ).ready(function() {
 
 	function deleteItem(){
 		$('.cross-icon').click(function(){
-            // console.log($(this).next());
 			var value = $(this).prev()[0].innerText;
 			brkpoint = brkpoint.filter(item => item !== value)
 			$(this).prev().remove();
@@ -97,6 +93,9 @@ $( document ).ready(function() {
 					  console.log('Value is set to ' + brkpoint);
 					});
 		    	}
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {message: "deleteAll"});
+                });
 			} else{
                 alert("No breakPoint to delete.");
             }
@@ -109,17 +108,15 @@ $( document ).ready(function() {
     	$('.delete-all-section').show();
     	$('.render-section').hide();
     	$('.stopped-scroll-section').hide();
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        /*chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {message: "deleteAll"});
-        });
+        });*/
     });
 
     $('#breakPoint').click(function(){
     	var brkInp = 'BreakPoint 1';
-    	console.log(brkpoint);
     	for (var i = 0; i < brkpoint.length; i++) {
     		var j = i+2;
-    		console.log("ii:"+i+"     jj::"+j);
     		brkInp = 'BreakPoint '+j;
     		if(brkInp == brkpoint[i]){
     			exist = true;
@@ -128,7 +125,6 @@ $( document ).ready(function() {
     		} else {
     			exist = false;
     		}
-    		console.log(exist);
     	}
     	brkpoint.push(brkInp);
 	    var span = document.createElement("span");
@@ -153,6 +149,13 @@ $( document ).ready(function() {
 
     $('#render').click(function(){
         chrome.runtime.sendMessage({message: "changeIcon", brkpoint:brkpoint});
+        /*setTimeout(function(){
+
+        },500);*/
+        chrome.runtime.sendMessage({message: "focus"});
+        /*chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {message: "focus", brkpoint:brkpoint});
+        });*/
         window.close();
     });
 });
