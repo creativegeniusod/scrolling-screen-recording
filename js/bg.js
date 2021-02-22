@@ -142,11 +142,7 @@ $( document ).ready(function() {
 	  		var date = (new Date()).toString().slice(0, 24);
 			var filename = "Video-" + date.replace(/ /g, '-').replace(/:/g, '-') + ".webm";
 	  		chrome.downloads.download({"url": download_url, "filename": filename}, function (id) {config.recorder.id = id});
-	  	}/* else if (request.message == "focus"){
-	  		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			    chrome.tabs.sendMessage(tabs[0].id, {message: "focusContent"});
-			});
-	  	}*/ else if(request.message == "refresh"){
+	  	} else if(request.message == "refresh"){
 		  		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	         		chrome.tabs.reload(tabs[0].id);
 				});

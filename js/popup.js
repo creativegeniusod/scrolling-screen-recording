@@ -76,7 +76,7 @@ $( document ).ready(function() {
     });
 
     $('.no').click(function(){
-    	$('#myModal').hide();
+    	$('#myModal').hide();4
     });
 
     $('#yes').click(function(){

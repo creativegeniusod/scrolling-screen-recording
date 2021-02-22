@@ -20,21 +20,6 @@ $( document ).ready(function() {
 		}
 	});
 
-	/*$(document).keydown(function(e){
-		console.log(e.which);
-	    if(e.which == 27){
-	        clickDetected();
-	    }
-	});*/
-	// function focus(){
-		document.addEventListener("keydown", function(event) {
-			console.log(event.which);
-		    if(event.keyCode === 27){
-		       clickDetected();
-		   }
-		});
-	// }
-
 	document.onclick= function(event) {
 	    clickDetected();
 	};
@@ -55,10 +40,6 @@ $( document ).ready(function() {
 
     chrome.runtime.onMessage.addListener(
 	  function(request, sender, sendResponse) {
-	    if (request.message == "focusContent"){
-	    	console.log("focus");
-	    	// window.focus();
-	    }
 	    if (request.message == "runAnimation"){
 	    	userStop = false;
 	    	$('a').attr('style', 'cursor: none !important');
@@ -132,6 +113,7 @@ $( document ).ready(function() {
 				setTimeout(function(){
 					$('a').attr('style', 'cursor: auto !important');
 		    		$('body').attr('style', 'cursor: auto !important');
+		    		$('.brkpoints').css('visibility', 'visible');
 		    		if(!userStop){
 						chrome.runtime.sendMessage({message: "stop"});
 						setTimeout(function(){
