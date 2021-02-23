@@ -11,6 +11,9 @@ $( document ).ready(function() {
 	  audio: false
 	};
 	
+	chrome.storage.local.remove(['screenTop']);
+	chrome.runtime.sendMessage({message: "remove"});
+
 	chrome.storage.local.get(['screenTop'], function(result) {
 		if(result.screenTop != undefined && result.screenTop.length > 0){
 			chrome.storage.local.set({screenTop: result.screenTop}, function() {
